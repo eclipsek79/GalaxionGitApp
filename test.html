@@ -18,7 +18,7 @@
 
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 <script>
-const socket = io("https://galaxiongitapp.onrender.com/");
+const socket = io("YOUR_RENDER_URL_HERE");
 
 function join() {
   socket.emit("join", document.getElementById("name").value);
