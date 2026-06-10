@@ -8,7 +8,6 @@ const io = new Server(server, {
   cors: { origin: "*" }
 });
 
-// 🌍 Players storage
 let players = {};
 
 app.get("/", (req, res) => {
@@ -18,7 +17,6 @@ app.get("/", (req, res) => {
 io.on("connection", (socket) => {
   console.log("Player connected:", socket.id);
 
-  // 👤 join game
   socket.on("join", (name) => {
     players[socket.id] = {
       id: socket.id,
@@ -30,7 +28,6 @@ io.on("connection", (socket) => {
     io.emit("playersUpdate", players);
   });
 
-  // 🧭 movement system
   socket.on("move", (direction) => {
     let player = players[socket.id];
     if (!player) return;
@@ -43,7 +40,6 @@ io.on("connection", (socket) => {
     io.emit("playersUpdate", players);
   });
 
-  // ❌ disconnect
   socket.on("disconnect", () => {
     delete players[socket.id];
     io.emit("playersUpdate", players);
