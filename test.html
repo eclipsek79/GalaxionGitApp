@@ -1,24 +1,35 @@
 <!DOCTYPE html>
 <html>
-<body>
-<h2>GALAXION TEST CLIENT</h2>
+<body style="font-family: monospace;">
+
+<h2>GALAXION MOVEMENT TEST</h2>
 
 <input id="name" placeholder="Enter name">
-<button onclick="join()">Join</button>
+<button onclick="join()">Join Game</button>
 
-<pre id="output"></pre>
+<br><br>
+
+<button onclick="move('up')">⬆ Up</button><br>
+<button onclick="move('left')">⬅ Left</button>
+<button onclick="move('right')">➡ Right</button><br>
+<button onclick="move('down')">⬇ Down</button>
+
+<pre id="screen"></pre>
 
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 <script>
 const socket = io("https://galaxiongitapp.onrender.com/");
 
 function join() {
-  const name = document.getElementById("name").value;
-  socket.emit("join", name);
+  socket.emit("join", document.getElementById("name").value);
 }
 
-socket.on("players", (data) => {
-  document.getElementById("output").innerText =
+function move(dir) {
+  socket.emit("move", dir);
+}
+
+socket.on("playersUpdate", (data) => {
+  document.getElementById("screen").innerText =
     JSON.stringify(data, null, 2);
 });
 </script>
